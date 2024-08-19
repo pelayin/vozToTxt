@@ -59,18 +59,14 @@ def transcribir_audio(ruta_archivo_audio):
         return None
 
 
-# def copiar_transcripcion_al_portapapeles(transcripcion):
-#     pyperclip.copy(transcripcion)
-#     pyperclip.paste()  # esto es mio por la línea de abajo, parece igual
-#     # pyautogui.hotkey("ctrl", "v")
-
-
 def main():
+    input("Presiona ENTER para comenzar...")
     while True:
         frames, frecuencia_muestreo = grabar_audio()
         archivo_audio_temp = guardar_audio(frames, frecuencia_muestreo)
-        print("Transcribiendo...")
+        print("Transcribiendo...<ESC> para detener")
         transcripcion = transcribir_audio(archivo_audio_temp)
+
         if transcripcion:
             print(
                 "----- Copiando... --------------------------------------------------------"
@@ -78,7 +74,7 @@ def main():
             pyperclip.copy(transcripcion)
             print("\n" + transcripcion + "\n")
             pyautogui.hotkey("ctrl", "v")
-            # pyperclip.paste()  # esto es mio por la línea de abajo
+            # pyperclip.paste()  # esto es mio supongo que igual que la línea de arriba
             print(
                 "----- Transcripción copiada al portapapeles y pegada a la aplicación -----"
             )
@@ -87,6 +83,9 @@ def main():
 
         os.unlink(archivo_audio_temp)
         print("\nListo para la próxima grabación...")
+
+        if keyboard.is_pressed("esc"):  # salir del programa
+            break
 
 
 if __name__ == "__main__":
